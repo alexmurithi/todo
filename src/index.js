@@ -1,17 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+// import ApolloClient from 'apollo-client'
+import {ApolloProvider, InMemoryCache, ApolloClient} from '@apollo/client';
+import typeDefs from './Apollo/Schema';
+import resolvers from './Apollo/Resolvers';
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+export const cache = new InMemoryCache();
+
+const client = new ApolloClient({
+  cache,
+  resolvers,
+  typeDefs
+});
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ApolloProvider client={client}>
+      <App />
+  </ApolloProvider>
+   
+  ,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
